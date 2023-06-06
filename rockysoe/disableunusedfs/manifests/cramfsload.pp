@@ -1,7 +1,7 @@
 # @summary 
 #   completes CIS control 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Automated)
 #
-class disableunusedfs::cramfs {
+class disableunusedfs::load {
   file { '/etc/modprobe.d':
     ensure => directory,
     owner  => 'root',
