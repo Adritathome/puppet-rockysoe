@@ -5,6 +5,6 @@
 # @example
 #   
 class disableunusedfs {
-  include disableunusedfs::cramfsload
-  include disableunusedfs::cramfsunload
+  include disableunusedfs::load
+  include disableunusedfs::unload
 }
