@@ -1,1 +1,4 @@
 --- {}
+rockysoe::enforce_udf: true
+rockysoe::enforce_cramfs: true
+rockysoe::enforce_squashfs: true
