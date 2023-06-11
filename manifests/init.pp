@@ -5,9 +5,9 @@
 # @example
 #   
 class rockysoe (
-  Boolean $enforce_udf,
-  Boolean $enforce_squashfs,
-  Boolean $enforce_cramfs,
+  Boolean $enforce_udf = false,
+  Boolean $enforce_squashfs = false,
+  Boolean $enforce_cramfs = false,
 ) {
   include rockysoe::unusedfs
 }
