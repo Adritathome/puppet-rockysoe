@@ -10,12 +10,12 @@ class rockysoe::tmpconfig {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    notify  => Exec['systemctl_reload'],
+    notify  => Exec['/bin/systemctl_reload'],
   }
 
   # Reload systemd configuration when the unit file changes
-  exec { 'systemctl_reload':
-    command     => 'systemctl daemon-reload',
+  exec { '/bin/systemctl_reload':
+    command     => '/bin/systemctl daemon-reload',
     refreshonly => true,
   }
 
@@ -31,8 +31,8 @@ class rockysoe::tmpconfig {
 
   # Enable the tmp.mount unit at boot time
   exec { 'enable_tmp_mount':
-    command     => 'systemctl enable tmp.mount',
+    command     => '/bin/systemctl enable tmp.mount',
     refreshonly => true,
-    require     => Exec['systemctl_reload'],
+    require     => Exec['/bin/systemctl_reload'],
   }
 }
