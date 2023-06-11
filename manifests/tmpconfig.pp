@@ -10,29 +10,28 @@ class rockysoe::tmpconfig {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    notify  => Exec['/bin/systemctl_reload'],
+    notify  => Exec['systemctl_reload'],
   }
 
   # Reload systemd configuration when the unit file changes
-  exec { '/bin/systemctl_reload':
-    command     => '/bin/systemctl daemon-reload',
+  exec { 'systemctl_reload':
+    command     => 'systemctl daemon-reload',
     refreshonly => true,
   }
 
-  # Update the /etc/fstab file with the tmpfs entry
-  file { '/etc/fstab':
-    ensure  => file,
-    content => "tmpfs /tmp tmpfs defaults,rw,nosuid,nodev,noexec,relatime,size=2G 0 0\n",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => File['/etc/systemd/system/tmp.mount'],
+  # Add the entry for /tmp to /etc/fstab
+  file_line { 'add_tmp_entry':
+    ensure  => present,
+    line    => 'tmpfs /tmp tmpfs defaults,rw,nosuid,nodev,noexec,relatime,size=2G 0 0',
+    match   => '^tmpfs /tmp tmpfs',
+    path    => '/etc/fstab',
+    require => [Exec['systemctl_reload'], File['/etc/systemd/system/tmp.mount']],
   }
 
   # Enable the tmp.mount unit at boot time
   exec { 'enable_tmp_mount':
-    command     => '/bin/systemctl enable tmp.mount',
+    command     => 'systemctl enable tmp.mount',
     refreshonly => true,
-    require     => Exec['/bin/systemctl_reload'],
+    require     => Exec['systemctl_reload'],
   }
 }
