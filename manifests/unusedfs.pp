@@ -23,7 +23,7 @@ class rockysoe::unusedfs {
     exec { 'unload_cramfs':
       command => 'modprobe -r cramfs',
       path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      unless  => 'lsmod | grep -c cramfs',
+      unless  => 'test -z "$(lsmod | grep cramfs)"',
     }
   }
 
@@ -40,7 +40,7 @@ class rockysoe::unusedfs {
     exec { 'unload_squashfs':
       command => 'modprobe -r squashfs',
       path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      unless  => 'lsmod | grep -c squashfs',
+      unless  => 'test -z "$(lsmod | grep squashfs)"',
     }
   }
 
@@ -57,7 +57,7 @@ class rockysoe::unusedfs {
     exec { 'unload_udf':
       command => 'modprobe -r udf',
       path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      unless  => 'lsmod | grep -c udf',
+      unless  => 'test -z "$(lsmod | grep udf)"',
     }
   }
 }
