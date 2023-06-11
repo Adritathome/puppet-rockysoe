@@ -11,7 +11,7 @@ class rockysoe::cramfsload {
 
   file { '/etc/modprobe.d/cramfs.conf':
     ensure  => file,
-    content => 'install cramfs /bin/false\nblacklist cramfs\n',
+    source  => 'puppet://modules/modules/rockysoe/cramfs.conf',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
