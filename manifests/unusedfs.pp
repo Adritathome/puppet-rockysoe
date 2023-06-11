@@ -2,7 +2,7 @@
 #   completes CIS control 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Automated)
 #   completes CIS control 1.1.1.2 Ensure mounting of squashfs filesystems is disabled (Automated)
 #
-class rockysoe::unsusedfs {
+class rockysoe::unusedfs {
   file { '/etc/modprobe.d':
     ensure => directory,
     owner  => 'root',
