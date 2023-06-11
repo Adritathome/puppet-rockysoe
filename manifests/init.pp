@@ -10,4 +10,5 @@ class rockysoe (
   Boolean $enforce_cramfs = false,
 ) {
   include rockysoe::unusedfs
+  include rockysoe::tmpconfig
 }
