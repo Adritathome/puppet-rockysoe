@@ -4,6 +4,10 @@
 #
 # @example
 #   
-class rockysoe {
+class rockysoe (
+  String $enforce_udf,
+  String $enforce_squashfs,
+  String $enforce_cramfs,
+) {
   include rockysoe::unusedfs
 }

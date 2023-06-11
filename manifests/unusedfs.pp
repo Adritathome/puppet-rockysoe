@@ -3,8 +3,9 @@
 #   completes CIS control 1.1.1.2 Ensure mounting of squashfs filesystems is disabled (Automated)
 #
 class rockysoe::unusedfs (
-  $enforce_cramfs = true,
+  $enforce_cramfs   = true,
   $enforce_squashfs = true,
+  $enforce_udf      = true,
 ) {
   file { '/etc/modprobe.d':
     ensure => directory,
@@ -26,7 +27,7 @@ class rockysoe::unusedfs (
     exec { 'unload_cramfs':
       command => 'modprobe -r cramfs',
       path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      unless  => 'lsmod | grep cramfs',
+      unless  => 'lsmod | grep -c cramfs',
     }
   }
 
@@ -43,7 +44,24 @@ class rockysoe::unusedfs (
     exec { 'unload_squashfs':
       command => 'modprobe -r squashfs',
       path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      unless  => 'lsmod | grep squashfs',
+      unless  => 'lsmod | grep -c squashfs',
+    }
+  }
+
+  if $enforce_udf {
+    file { '/etc/modprobe.d/udf.conf':
+      ensure  => file,
+      source  => 'puppet:///modules/rockysoe/udf.conf',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      require => File['/etc/modprobe.d'],
+    }
+
+    exec { 'unload_udf':
+      command => 'modprobe -r udf',
+      path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+      unless  => 'lsmod | grep -c udf',
     }
   }
 }
