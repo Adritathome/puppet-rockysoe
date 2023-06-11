@@ -5,5 +5,5 @@
 # @example
 #   
 class rockysoe {
-  include rockysoe::unsusedfs
+  include rockysoe::unusedfs
 }
