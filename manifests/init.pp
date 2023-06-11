@@ -4,7 +4,7 @@
 #
 # @example
 #   
-class disableunusedfs {
-  include disableunusedfs::cramfsload
-  include disableunusedfs::cramfsunload
+class rockysoe {
+  include rockysoe::cramfsload
+  include rockysoe::cramfsunload
 }
