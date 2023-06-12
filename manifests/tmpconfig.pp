@@ -3,11 +3,10 @@
 #   completes CIS control 1.1.2.2 Ensure nodev option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.3 Ensure noexec option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.4 Ensure nosuid option set on /tmp partition (Automated)
-class rockysoe::tmpconfig {
-  # Assign partition variables using Facter data
-  $efi_partition = $facts['partitions']['/dev/sda1']
-  $boot_partition = $facts['partitions']['/dev/sda2']
-
+class rockysoe::tmpconfig (
+  $boot_partition,
+  $efi_partition,
+) {
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
     ensure => file,
@@ -27,7 +26,7 @@ class rockysoe::tmpconfig {
   # Ensure fstab file is present and uses the template fstab.erb to populate
   file { '/etc/fstab':
     ensure  => file,
-    content => template('rockysoe/fstab.erb'),
+    content => template('rockysoe/fstab.erb', { boot_partition => $boot_partition, efi_partition => $efi_partition }),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
