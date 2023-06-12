@@ -10,8 +10,8 @@
 # units generated from this file.
 #
 /dev/mapper/rl-root     /                       xfs     defaults        0 0
-UUID=<%= $boot_partition['uuid'] %> /boot                   xfs     defaults        0 0
-UUID=<%= $efi_partition['uuid'] %>         /boot/efi               vfat    umask=0077,shortname=winnt 0 2
+UUID=<%= $boot_partition %> /boot                   xfs     defaults        0 0
+UUID=<%= $efi_partition %>         /boot/efi               vfat    umask=0077,shortname=winnt 0 2
 /dev/mapper/rl-home     /home                   xfs     defaults        0 0
 /dev/mapper/rl-swap     none                    swap    defaults        0 0
 tmpfs                   /tmp                    tmpfs   defaults,rw,nosuid,nodev,noexec,relatime,size=2G       0 0
