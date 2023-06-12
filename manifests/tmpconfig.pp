@@ -9,7 +9,6 @@ class rockysoe::tmpconfig {
     path        => '/usr/bin:/bin',
     refreshonly => true,
     returns     => [0],
-    environment => 'BLOCK_DEVICE_UUID_SDA1=%{facts[block_device_uuid_sda1]} BLOCK_DEVICE_UUID_SDA2=%{facts[block_device_uuid_sda2]}',
     notify      => File['/etc/fstab'],
   }
 
