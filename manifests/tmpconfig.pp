@@ -3,11 +3,10 @@
 #   completes CIS control 1.1.2.2 Ensure nodev option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.3 Ensure noexec option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.4 Ensure nosuid option set on /tmp partition (Automated)
-class rockysoe::tmpconfig (
+class rockysoe::tmpconfig {
   $block_device_uuid_sda1 = inline_template('<%= `/sbin/blkid -s UUID -o value /dev/sda1`.strip %>')
   $block_device_uuid_sda2 = inline_template('<%= `/sbin/blkid -s UUID -o value /dev/sda2`.strip %>')
 
-) {
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
     ensure => file,
