@@ -32,7 +32,7 @@ class rockysoe::tmpconfig {
   # Ensure fstab file is present and uses the template fstab.erb to populate
   file { '/etc/fstab':
     ensure  => file,
-    content => template('/rockysoe/fstab.erb'),
+    content => template('rockysoe/fstab.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
