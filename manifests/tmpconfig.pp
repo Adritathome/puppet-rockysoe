@@ -3,12 +3,12 @@
 class rockysoe::tmpconfig {
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
-    ensure  => file,
-    content => "[Unit]\nDescription=Temporary Directory\nDocumentation=man:hier(7)\nDocumentation=http://www.freedesktop.org/wiki/Software/systemd/APIFileSystems\n\n[Mount]\nWhat=tmpfs\nWhere=/tmp\nType=tmpfs\nOptions=rw,nosuid,nodev,noexec,relatime,seclabel,size=2G\n\n[Install]\nWantedBy=multi-user.target\n",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    notify  => Exec['systemctl_reload'],
+    ensure => file,
+    source => 'puppet:///modules/rockysoe/tmp.mount',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    notify => Exec['systemctl_reload'],
   }
 
   # Reload systemd configuration when the unit file changes

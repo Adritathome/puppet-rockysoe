@@ -1,1 +1,14 @@
 #This file is managed by puppet
+[Unit]
+Description=Temporary Directory
+Documentation=man:hier(7)
+Documentation=http://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+
+[Mount]
+What=tmpfs
+Where=/tmp
+Type=tmpfs
+Options=rw,nosuid,nodev,noexec,relatime,seclabel,size=2G
+
+[Install]
+WantedBy=multi-user.target
