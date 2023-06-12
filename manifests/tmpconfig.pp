@@ -12,6 +12,10 @@ class rockysoe::tmpconfig {
     notify      => File['/etc/fstab'],
   }
 
+  #set vars
+  $block_device_uuid_sda1 = $facts['get_uuid']['/dev/sda1']
+  $block_device_uuid_sda2 = $facts['get_uuid']['/dev/sda2']
+
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
     ensure => file,
