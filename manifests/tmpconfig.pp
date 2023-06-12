@@ -20,6 +20,19 @@ class rockysoe::tmpconfig {
     refreshonly => true,
   }
 
+  # Custom fact to retrieve block device UUIDs
+  Facter.add('block_device_uuids') do
+    setcode do
+      uuids = {}
+      blkid_output = Facter::Core::Execution.exec('/sbin/blkid -s UUID -o export')
+      blkid_output.each_line do |line|
+        key_value = line.strip.split('=')
+        uuids[key_value[0]] = key_value[1]
+      end
+      uuids
+    end
+  }
+
   # Ensure fstab file is present and uses the template fstab.erb to populate
   file { '/etc/fstab':
     ensure  => file,
@@ -36,17 +49,4 @@ class rockysoe::tmpconfig {
     refreshonly => true,
     require     => Exec['systemctl_reload'],
   }
-}
-
-# Custom fact to retrieve block device UUIDs
-Facter.add('block_device_uuids') do
-setcode do
-uuids = {}
-blkid_output = Facter::Core::Execution.exec('/sbin/blkid -s UUID -o export')
-blkid_output.each_line do |line|
-key_value = line.strip.split('=')
-uuids[key_value[0]] = key_value[1]
-end
-uuids
-end
 }
