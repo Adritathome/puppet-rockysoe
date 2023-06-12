@@ -4,9 +4,6 @@
 #   completes CIS control 1.1.2.3 Ensure noexec option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.4 Ensure nosuid option set on /tmp partition (Automated)
 class rockysoe::tmpconfig {
-  $block_device_uuid_sda1 = inline_template('<%= `/sbin/blkid -s UUID -o value /dev/sda1`.strip %>')
-  $block_device_uuid_sda2 = inline_template('<%= `/sbin/blkid -s UUID -o value /dev/sda2`.strip %>')
-
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
     ensure => file,
@@ -39,4 +36,17 @@ class rockysoe::tmpconfig {
     refreshonly => true,
     require     => Exec['systemctl_reload'],
   }
+}
+
+# Custom fact to retrieve block device UUIDs
+Facter.add('block_device_uuids') do
+setcode do
+uuids = {}
+blkid_output = Facter::Core::Execution.exec('/sbin/blkid -s UUID -o export')
+blkid_output.each_line do |line|
+key_value = line.strip.split('=')
+uuids[key_value[0]] = key_value[1]
+end
+uuids
+end
 }
