@@ -4,17 +4,8 @@
 #   completes CIS control 1.1.2.3 Ensure noexec option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.4 Ensure nosuid option set on /tmp partition (Automated)
 class rockysoe::tmpconfig {
-  exec { 'get_uuid':
-    command     => 'blkid -s UUID -o value /dev/sda1 /dev/sda2',  # Add additional block devices as needed
-    path        => '/usr/bin:/bin',
-    refreshonly => true,
-    returns     => [0],
-    notify      => File['/etc/fstab'],
-  }
-
-  #set vars
-  $block_device_uuid_sda1 = $facts['get_uuid']['/dev/sda1']
-  $block_device_uuid_sda2 = $facts['get_uuid']['/dev/sda2']
+  $block_device_uuid_sda1 = inline_template('<%= `/sbin/blkid -s UUID -o value /dev/sda1`.strip %>')
+  $block_device_uuid_sda2 = inline_template('<%= `/sbin/blkid -s UUID -o value /dev/sda2`.strip %>')
 
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
@@ -39,7 +30,7 @@ class rockysoe::tmpconfig {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Exec['get_uuid'],
+    require => File['/etc/systemd/system/tmp.mount'],
   }
 
   # Enable the tmp.mount unit at boot time
