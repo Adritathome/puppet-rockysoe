@@ -4,6 +4,10 @@
 #   completes CIS control 1.1.2.3 Ensure noexec option set on /tmp partition (Automated)
 #   completes CIS control 1.1.2.4 Ensure nosuid option set on /tmp partition (Automated)
 class rockysoe::tmpconfig {
+  # Assign partition variables using Facter data
+  $efi_partition = $facts['partitions']['/dev/sda1']
+  $boot_partition = $facts['partitions']['/dev/sda2']
+
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
     ensure => file,
