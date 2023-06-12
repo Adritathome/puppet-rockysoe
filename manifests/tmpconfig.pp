@@ -1,7 +1,5 @@
 # @summary 
 #   completes CIS control 1.1.2.1 Ensure /tmp is a separate partition (Automated)
-#   completes CIS control 1.1.1.2 Ensure mounting of squashfs filesystems is disabled (Automated)
-#   completes CIS control 1.1.1.3 Ensure mounting of udf filesystems is disabled (Automated)   
 class rockysoe::tmpconfig {
   # Create the systemd unit file for tmp.mount
   file { '/etc/systemd/system/tmp.mount':
@@ -19,13 +17,13 @@ class rockysoe::tmpconfig {
     refreshonly => true,
   }
 
-  # Add the entry for /tmp to /etc/fstab
-  file_line { 'add_tmp_entry':
-    ensure  => present,
-    line    => 'tmpfs /tmp tmpfs defaults,rw,nosuid,nodev,noexec,relatime,size=2G 0 0',
-    match   => '^tmpfs /tmp tmpfs',
-    path    => '/etc/fstab',
-    require => [Exec['systemctl_reload'], File['/etc/systemd/system/tmp.mount']],
+  # Ensure fstab file is present
+  file { '/etc/fstab':
+    ensure => file,
+    source => 'puppet:///modules/rockysoe/fstab',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
   }
 
   # Enable the tmp.mount unit at boot time
